@@ -6,128 +6,46 @@ A proposta deve apresentar uma ideia simples, clara e viável para ser desenvolv
 
 ## 1. Nome provisório do jogo
 
-Escreva aqui o nome provisório do jogo.
-
-Exemplo:
-
-> Corrida dos Obstáculos
+Royal Flush
 
 ## 2. Integrantes do grupo
 
 Liste os integrantes do grupo.
 
-- Nome 1:
-- Nome 2:
-- Nome 3:
-- Nome 4:
+- Maria Clara Fernandes Benatti
+- Sofia Liva Mendes Faria
 
 ## 3. Tipo de jogo
 
 Indique o tipo de jogo que será desenvolvido.
 
-Exemplos:
-
-- jogo de desviar de obstáculos;
-- jogo de coleta de itens;
-- labirinto simples;
-- jogo de perguntas e respostas;
-- jogo de memória;
-- Pong;
-- Snake;
-- Breakout;
-- nave desviando de meteoros;
-- corrida simples com obstáculos;
-- jogo de clique rápido;
-- jogo de sobrevivência simples.
-
 Tipo escolhido pelo grupo:
 
-> Escreva aqui.
+Jogo de memória.
 
 ## 4. Descrição geral do jogo
 
-Explique, em poucas linhas, como o jogo funcionará.
-
-Procure responder:
-
-- O que aparece na tela?
-- O que o jogador controla?
-- O que o jogador precisa fazer?
-- Quais desafios aparecem durante a partida?
-
-Descrição:
-
-> Escreva aqui.
+Uma interface gráfica inspirada em uma mesa de feltro verde de cassino (poker). Na tela, o jogador visualiza um grid de cartas de baralho viradas para baixo, com designs baseados nos quatro naipes. Na parte superior ou lateral da tela, há um painel de controle exibindo o placar com a quantidade de moedas de poker acumuladas, o nível atual e o contador de "vidas" restantes (erros permitidos). O jogador controla apenas o cursor do mouse. Toda a jogabilidade é baseada em cliques com o botão esquerdo para selecionar, revelar e interagir com as cartas na tela e com os menus do jogo. O jogador deve clicar nas cartas para virá-las, duas por vez, tentando memorizar suas posições através de um sistema de tentativa e erro. O objetivo principal é encontrar os pares perfeitos (cartas com o mesmo número/classe E o mesmo naipe) para eliminá-las do tabuleiro e avançar de nível. O jogador tem um máximo de 3 erros totais (combinações totalmente erradas) por rodada. Se as vidas zerarem, é Game Over. O maior perigo do tabuleiro. Clicar no Coringa funciona como uma armadilha que zera instantaneamente todas as moedas acumuladas na rodada. Se o jogador não memorizar a posição do Coringa e clicar nele uma segunda vez na mesma rodada, a partida é encerrada imediatamente em derrota. 
 
 ## 5. Objetivo do jogador
 
-Explique qual é o objetivo principal do jogador.
-
-Exemplos:
-
-- coletar o maior número possível de itens;
-- sobreviver pelo maior tempo possível;
-- chegar até o final do labirinto;
-- acertar alvos;
-- responder perguntas corretamente;
-- evitar obstáculos;
-- quebrar todos os blocos.
-
-Objetivo:
-
-> Escreva aqui.
+O objetivo do jogador é conseguir memorizar o local de todas as cartas em um sistema de tentativa e erro para completar a fase, e principalmente evitar a carta do coringa que pode tirar todas as suas moedas ganhas na rodada. 
 
 ## 6. Regras principais
 
-Liste as principais regras do jogo.
-
-Exemplo:
-
-- O jogador começa com 3 vidas.
-- Cada moeda coletada vale 10 pontos.
-- Cada colisão com obstáculo remove 1 vida.
-- A partida termina quando as vidas chegam a zero.
-- O jogador vence se alcançar 100 pontos.
-
-Regras do grupo:
-
-- Regra 1:
-- Regra 2:
-- Regra 3:
-- Regra 4:
-- Regra 5:
+- Acertos de Naipe fazem as cartas virarem novamente, mas acrescentam uma ficha à sua bolsa. (ex: 2 de copas e 7 de copas).
+- Acertos de Número ou Classe (rei, rainha…) fazem as cartas virarem novamente, mas acrescentam uma ficha à sua bolsa. (ex: rainha de paus e rainha de ouros).
+- Acertos de Número e Naipe fazem as cartas permanecerem viradas, contando elas como fora da rodada e acrescenta dez pontos à sua bolsa. 
+- Clicar na carta do Coringa faz com que você perca todos seus pontos (e é acumulativo). 
+- Tem um limite máximo de erros “vidas” que são 3 erros totais (acertos de Naipe e Acertos de Número não contam como erros)
 
 ## 7. Condição de vitória
 
-Explique como o jogador vence ou conclui o jogo.
-
-Exemplos:
-
-- atingir determinada pontuação;
-- chegar ao final da fase;
-- sobreviver até o tempo acabar;
-- responder uma quantidade mínima de perguntas;
-- quebrar todos os blocos.
-
-Condição de vitória:
-
-> Escreva aqui.
+A vitória deve acontecer quando todos os pares perfeitos (Número + Naipe) forem revelados e fixados na tela. 
 
 ## 8. Condição de derrota ou encerramento
 
-Explique como o jogador perde ou quando a partida termina.
-
-Exemplos:
-
-- perder todas as vidas;
-- acabar o tempo;
-- colidir com determinado obstáculo;
-- errar muitas perguntas;
-- deixar a bola cair, no caso de Breakout ou Pong.
-
-Condição de derrota ou encerramento:
-
-> Escreva aqui.
+A derrota se dá quando o número de vidas chega a zero, ou, quando você clica no Coringa duas vezes na mesma rodada. 
 
 ## 9. Elementos previstos no jogo
 
