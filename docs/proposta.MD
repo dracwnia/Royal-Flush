@@ -1,9 +1,5 @@
 # Proposta Inicial do Jogo
 
-Este documento deve ser preenchido pelo grupo na Semana 1 do projeto.
-
-A proposta deve apresentar uma ideia simples, clara e viável para ser desenvolvida com Python e Pygame dentro do prazo disponível.
-
 ## 1. Nome provisório do jogo
 
 Royal Flush
@@ -49,156 +45,65 @@ A derrota se dá quando o número de vidas chega a zero, ou, quando você clica 
 
 ## 9. Elementos previstos no jogo
 
-Descreva os principais elementos que farão parte do jogo.
-
 ## Jogador ou elemento principal
 
-Exemplo:
-
-> Um personagem controlado pelas setas do teclado.
-
-Descrição:
-
-> Escreva aqui.
+O jogador não possui um personagem visual. Toda a interação é feita pelo cursor do mouse, que representa a ação do jogador sobre o tabuleiro.
 
 ## Obstáculos, inimigos ou desafios
 
-Exemplo:
-
-> Obstáculos aparecem em posições aleatórias e devem ser evitados.
-
-Descrição:
-
-> Escreva aqui.
+A carta Coringa é o principal elemento de perigo: Clicar nela pela primeira vez zera todas as moedas acumuladas na rodada atual. Clicar nela uma segunda vez na mesma rodada encerra a partida imediatamente em derrota. Além disso, o próprio tabuleiro funciona como desafio, pois as cartas são posicionadas aleatoriamente, exigindo memorização das posições para evitar erros e para evitar o Coringa.
 
 ## Itens, alvos ou objetos de interação
 
-Exemplo:
-
-> Moedas aparecem na tela e aumentam a pontuação quando coletadas.
-
-Descrição:
-
-> Escreva aqui.
+- Cartas de baralho: distribuídas em grid, viradas para baixo. O jogador as revela duas por vez;
+- Par de naipe (mesmo naipe, valores diferentes): as cartas viram novamente, mas concedem +1 moeda;
+- Par de valor (mesmo valor, naipes diferentes): as cartas viram novamente, mas concedem +1 moeda;
+- Par perfeito (mesmo naipe e mesmo valor): as cartas são fixadas no tabuleiro, removidas da jogada e concedem +10 moedas;
+- Carta Coringa: armadilha que zera todas as moedas da rodada no 1º clique e encerra a partida no 2º clique na mesma rodada.
 
 ## Pontuação, vidas, tempo ou progresso
 
-Exemplo:
-
-> O jogador começa com 3 vidas e ganha 10 pontos por item coletado.
-
-Descrição:
-
-> Escreva aqui.
+O jogador inicia cada rodada com 3 vidas. Apenas combinações completamente erradas (sem naipe nem valor em comum) consomem uma vida, acertos parciais de naipe ou valor não são penalizados com perda de vida. O placar exibe as moedas acumuladas, o nível atual e as vidas restantes. Ao completar todos os pares perfeitos do tabuleiro, o jogador avança de nível, com o grid aumentando progressivamente.
 
 ## 10. Controles previstos
 
-Informe os comandos que serão utilizados pelo jogador.
-
-Exemplo:
-
-- Seta para cima: mover para cima
-- Seta para baixo: mover para baixo
-- Seta para esquerda: mover para esquerda
-- Seta para direita: mover para direita
-- Espaço: realizar ação
-- ESC: sair do jogo
-
-Controles do grupo:
-
-- Tecla/comando:
-- Tecla/comando:
-- Tecla/comando:
+- Clique esquerdo do mouse: revelar carta/selecionar opção no menu
+- ESC: sair do jogo ou pausar
 
 ## 11. Organização inicial do código
 
-Explique como o grupo pretende organizar o código.
-
-Exemplo:
-
-- `main.py`: inicia o jogo;
-- `src/jogo.py`: contém o loop principal;
-- `src/config.py`: guarda configurações como tamanho da tela e cores;
-- `src/funcoes.py`: contém funções auxiliares;
-- `src/dados.py`: contém funções de leitura e escrita de arquivos.
-
-Organização planejada:
-
-> Escreva aqui.
+- `main.py`: inicia o jogo e chama o loop principal;
+- `src/jogo.py`: contém o loop principal e o controle de estados do jogo (menu, rodada, game over);
+- `src/tabuleiro.py`: gerencia a criação, embaralhamento e exibição do grid de cartas;
+- `src/carta.py`: define a estrutura de cada carta (naipe, valor, estado) e suas funções de comparação;
+- `src/pontuacao.py`: controla moedas, vidas, nível e lógica de progressão;
+- `src/arquivos.py`: funções de leitura e escrita de arquivos (ranking, configurações);
+- `src/config.py`: constantes do jogo, como tamanho da tela, cores e configurações de grid por nível.
 
 
 ## 12. Recursos externos previstos
 
-Informe se o grupo pretende utilizar imagens, sons, fontes, tutoriais ou códigos externos.
-
-Exemplo:
-
-- imagens obtidas de banco gratuito;
-- sons gratuitos;
-- tutorial usado apenas como referência;
-- fonte personalizada.
-
-Recursos previstos:
-
-> Escreva aqui.
-
-Caso não pretenda utilizar recursos externos, escreva:
-
-> Não pretendemos utilizar recursos externos.
+- Imagens para as cartas;
+- Fonte personalizada;
+- Sons de efeito, caso haja tempo para implementação.
 
 ## 13. Principais dificuldades esperadas
 
-Liste as dificuldades que o grupo acredita que poderá enfrentar.
-
-Exemplos:
-
-- movimentação do jogador;
-- colisão entre objetos;
-- controle de tempo;
-- criação do ranking;
-- organização do código;
-- uso do GitHub;
-- testes;
-- exibição de textos na tela.
-
-Dificuldades previstas:
-
-- Dificuldade 1:
-- Dificuldade 2:
-- Dificuldade 3:
+- Gerenciar o estado de cada carta (virada, revelada temporariamente, fixada como par ou identificada como Coringa) sem conflitos durante a jogada;
+- Implementar a lógica de comparação parcial (só naipe ou só valor) separada da lógica de par perfeito, garantindo que as recompensas e os efeitos corretos sejam aplicados em cada caso;
+- Controlar o comportamento do Coringa em dois estágios (zerar moedas no 1º clique, game over no 2º) dentro da mesma rodada sem que o estado se perca entre turnos;
+- Escalar o grid dinamicamente entre os níveis, ajustando o tamanho e o posicionamento das cartas na tela conforme o tabuleiro cresce;
+- Manter o código organizado em funções e módulos desde o início para facilitar testes e a integração com a parte desenvolvida pela outra integrante.
 
 ## 14. Escopo mínimo para a entrega final
 
-Descreva qual será a versão mínima aceitável do jogo.
-
-Esta seção é importante para evitar que o grupo escolha uma ideia grande demais.
-
-Exemplo:
-
-> A versão mínima do jogo terá um personagem controlado pelo teclado, obstáculos aparecendo na tela, sistema de vidas, sistema de pontuação e tela de fim de jogo.
-
-Escopo mínimo:
-
-> Escreva aqui.
+A versão mínima do jogo terá um tabuleiro funcional com cartas embaralhadas e mecânica de revelar duas por vez, sistema de comparação com os três resultados possíveis (par de naipe, par de valor e par perfeito), carta Coringa com seus dois efeitos, sistema de 3 vidas com perda apenas em erros totais, placar com moedas e nível exibido na tela, condição de vitória ao completar todos os pares perfeitos, condição de derrota por vidas zeradas ou segundo clique no Coringa, e pelo menos dois níveis com grids de tamanhos diferentes.
 
 ## 15. Possíveis melhorias, caso haja tempo
 
-Liste funcionalidades extras que o grupo poderá implementar se conseguir concluir o escopo mínimo.
-
-Exemplos:
-
-- tela inicial;
-- sons;
-- fases;
-- aumento de dificuldade;
-- ranking;
-- animações;
-- novos tipos de obstáculos;
-- diferentes personagens;
-- menu de pausa.
-
-Melhorias possíveis:
-
-- Melhoria 1:
-- Melhoria 2:
-- Melhoria 3:
+- Sistema de combo que exibe mensagem ao acertar pares perfeitos consecutivos;
+- Animação de virar carta;
+- Tela inicial e tela de game over com estética de cassino;
+- Ranking salvo em arquivo com as maiores pontuações;
+- Sons de efeito para acerto, erro e Coringa;
+- Aumento progressivo de dificuldade com mais Coringas nos níveis avançados.
