@@ -1,13 +1,49 @@
-# Configurações centrais do jogo (tela, cores e caminhos de arquivos).
-LARGURA_TELA = 800
-ALTURA_TELA = 600
+LARGURA_TELA = 900
+ALTURA_TELA = 700
 FPS = 60
 
-TITULO_JOGO = "Projeto Final - Pygame"
+TITULO_JOGO = "Royal Flush"
 
-BRANCO = (255, 255, 255)
-PRETO = (0, 0, 0)
-CINZA = (212,212,212)
+BRANCO       = (255, 255, 255)
+PRETO        = (0, 0, 0)
+CINZA        = (212, 212, 212)
+VERDE_MESA   = (35, 100, 55)
+VERDE_ESCURO = (20, 70, 35)
+DOURADO      = (212, 175, 55)
+VERMELHO     = (200, 40, 40)
+AZUL_CARTA   = (30, 60, 130)
+AMARELO      = (255, 215, 0)
 
-CAMINHO_RECORDE = "data/recorde.txt"
-CAMINHO_SPRITES = "assets/imagens/spritesheet.bmp"
+NAIPES  = ["copas", "ouros", "espadas", "paus"]
+VALORES = ["A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"]
+
+SIMBOLOS_NAIPE = {
+    "copas":   "♥",
+    "ouros":   "♦",
+    "espadas": "♠",
+    "paus":    "♣",
+}
+
+CORES_NAIPE = {
+    "copas":   VERMELHO,
+    "ouros":   VERMELHO,
+    "espadas": PRETO,
+    "paus":    PRETO,
+}
+
+GRID_NIVEIS = {
+    1: (4, 3),
+    2: (5, 4),
+    3: (6, 4),
+}
+
+VIDAS_INICIAIS = 3
+
+PAINEL_X    = 720
+PAINEL_LARG = 180
+
+CARTA_LARG   = 90
+CARTA_ALT    = 120
+MARGEM_CARTA = 12
+
+CAMINHO_RANKING = "data/ranking.txt"
