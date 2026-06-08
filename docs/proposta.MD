@@ -10,6 +10,7 @@ Liste os integrantes do grupo.
 
 - Maria Clara Fernandes Benatti
 - Sofia Liva Mendes Faria
+- Pedro Felipe Bastos de Oliveira
 
 ## 3. Tipo de jogo
 
