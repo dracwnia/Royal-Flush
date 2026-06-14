@@ -1,4 +1,4 @@
-# Nome do Jogo
+# Royal Flush
 
 Projeto final da disciplina de Introdução a Algoritmos/Programação, desenvolvido com Python e Pygame.
 
@@ -6,10 +6,9 @@ Este repositório é um template para os grupos da disciplina. A proposta é com
 
 ## Integrantes do grupo
 
-- Nome do integrante 1
-- Nome do integrante 2
-- Nome do integrante 3
-- Nome do integrante 4
+- Maria Clara Fernandes Benatti
+- Sofia Liva Mendes Faria
+- Pedro Felipe Bastos de Oliveira
 
 ## Estrutura do projeto
 
@@ -22,43 +21,28 @@ Este repositório é um template para os grupos da disciplina. A proposta é com
 
 ## Descrição do jogo
 
-Descreva brevemente a ideia principal do jogo.
-
-Exemplo:
-
-> O jogo consiste em controlar um personagem que deve coletar moedas e evitar obstáculos. O jogador ganha pontos ao coletar itens e perde vidas ao colidir com obstáculos. A partida termina quando o tempo acaba ou quando o jogador perde todas as vidas.
+Royal Flush é um jogo de memória com tema de cassino. O jogador visualiza um tabuleiro de cartas de baralho viradas para baixo, dispostas em grid sobre uma mesa de feltro verde. A cada jogada, duas cartas são reveladas e comparadas: se tiverem o mesmo naipe e o mesmo valor (par perfeito), elas são fixadas e saem da jogada; se tiverem apenas o naipe ou apenas o valor em comum, voltam a virar para baixo sem penalidade; se não tiverem nada em comum, o jogador perde uma vida. O tabuleiro também contém uma carta Coringa, que funciona como armadilha.
 
 ## Objetivo do jogador
 
-Explique o que o jogador precisa fazer para vencer ou avançar no jogo.
-
-Exemplo:
-
-> O objetivo é coletar a maior quantidade possível de itens antes que o tempo acabe, evitando colisões com os obstáculos.
+O objetivo é memorizar a posição das cartas e encontrar todos os pares perfeitos (mesmo naipe e mesmo valor) do tabuleiro, avançando de nível, evitando ao máximo errar combinações e clicar na carta Coringa.
 
 ## Regras do jogo
 
-Liste as principais regras do jogo.
-
-Exemplo:
-
-- O jogador se movimenta usando as setas do teclado.
-- Cada item coletado aumenta a pontuação.
-- Colidir com um obstáculo reduz a quantidade de vidas.
-- A partida termina quando o jogador perde todas as vidas ou quando o tempo acaba.
+- O jogador clica em duas cartas por vez para revelá-las e compará-las.
+- Par perfeito (mesmo naipe e mesmo valor): as cartas são fixadas e saem da jogada.
+- Par de mesmo naipe (valores diferentes) ou mesmo valor (naipes diferentes): as cartas voltam a virar para baixo, sem perda de vida.
+- Combinação totalmente errada (sem naipe nem valor em comum): o jogador perde 1 vida.
+- O jogador começa cada rodada com 3 vidas. Ao zerar as vidas, é Game Over.
+- A carta Coringa é uma armadilha: no 1º clique, todos os pares perfeitos já fixados voltam à posição original (viradas para baixo); no 2º clique na mesma rodada, a partida é encerrada imediatamente em derrota.
+- Ao encontrar todos os pares perfeitos do tabuleiro, o jogador avança de nível, com o grid de cartas aumentando de tamanho.
+- A vitória ocorre ao completar o último nível disponível.
 
 ## Controles
 
-Informe as teclas ou comandos utilizados no jogo.
-
-Exemplo:
-
-- Seta para cima: mover para cima
-- Seta para baixo: mover para baixo
-- Seta para esquerda: mover para esquerda
-- Seta para direita: mover para direita
-- Espaço: realizar ação
-- ESC: sair do jogo
+- Clique esquerdo do mouse: revelar carta / interagir com o tabuleiro.
+- R: reiniciar a partida (após vitória ou derrota).
+- ESC: sair do jogo.
 
 ## Como executar o projeto
 
