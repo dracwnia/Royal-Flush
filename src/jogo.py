@@ -281,9 +281,9 @@ def executar_jogo():
                         mensagem = ""
                     else:
                         coringa_usado = True
-                        for c in cartas:
-                            if c["estado"] == "fixada":
-                                c["estado"] = "fechada"
+                    for c in cartas:
+                        if c["estado"] in ("fixada", "aberta") and not c["coringa"]:
+                            c["estado"] = "fechada"
                         selecionadas      = []
                         mensagem          = "CORINGA! Cartas desviradas!"
                         cor_mensagem      = AMARELO
