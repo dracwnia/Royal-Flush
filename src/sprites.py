@@ -6,6 +6,15 @@ from src.config import (
     AMARELO, SIMBOLOS_NAIPE, CORES_NAIPE,
 )
 
+_cache_imagens = {}
+
+def _carregar_imagem(path, w, h):
+    chave = (path, w, h)
+    if chave not in _cache_imagens:
+        img = pygame.image.load(path).convert_alpha()
+        _cache_imagens[chave] = pygame.transform.scale(img, (w, h))
+    return _cache_imagens[chave]
+
 
 def desenhar_carta(superficie, carta):
     if carta["estado"] == "fechada":
@@ -62,22 +71,17 @@ def _desenhar_frente(sup, carta, fixada):
 
 
 def _desenhar_coringa(sup, rect):
-    pygame.draw.rect(sup, (30, 20, 50), rect, border_radius=8)
-    pygame.draw.rect(sup, AMARELO, rect, width=3, border_radius=8)
-
-    x, y = rect.topleft
-
-    fonte_g = pygame.font.SysFont("segoeuisymbol,dejavusans", 36)
-    fonte_p = pygame.font.SysFont("arial", 12, bold=True)
-
-    txt_joker = fonte_g.render("JOKER", True, AMARELO)
-    cx = x + CARTA_LARG // 2 - txt_joker.get_width() // 2
-    cy = y + CARTA_ALT  // 2 - txt_joker.get_height() // 2 - 8
-    sup.blit(txt_joker, (cx, cy))
-
-    txt_label = fonte_p.render("CORINGA", True, AMARELO)
-    cx2 = x + CARTA_LARG // 2 - txt_label.get_width() // 2
-    sup.blit(txt_label, (cx2, y + CARTA_ALT - 24))
+    try:
+        import os
+        pasta_atual = os.path.dirname(__file__)
+        caminho_real = os.path.abspath(os.path.join(pasta_atual, "..", "assets", "imagens", "joker.png"))
+        
+        img = _carregar_imagem(caminho_real, rect.width, rect.height)
+        sup.blit(img, rect.topleft)
+        print("joker carregado ok")
+    except Exception as e:
+        print(f"erro joker: {e}")
+        pygame.draw.rect(sup, (30, 20, 50), rect, border_radius=8)
 
 
 def desenhar_painel(tela, vidas, nivel, fonte_titulo, fonte_info):
