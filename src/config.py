@@ -1,3 +1,4 @@
+from pathlib import Path
 LARGURA_TELA = 900
 ALTURA_TELA = 700
 FPS = 60
@@ -46,4 +47,5 @@ CARTA_LARG   = 90
 CARTA_ALT    = 120
 MARGEM_CARTA = 12
 
-CAMINHO_RANKING = "data/ranking.txt"
+ROOT_FOLDER = Path(__file__).resolve().parent
+CAMINHO_RANKING = ROOT_FOLDER/ ".." / "data" / "ranking.txt"

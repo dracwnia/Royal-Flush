@@ -32,7 +32,7 @@ _CREAM    = (255, 245, 200)
  
  
 def tela_menu(tela, fonte_titulo, fonte_btn, relogio):
-    frames      = _carregar_gif("./assets/imagens/tela_inicial.gif", LARGURA_TELA, ALTURA_TELA)
+    frames      = _carregar_gif("Royal-Flush/assets/imagens/tela_inicial.gif", LARGURA_TELA, ALTURA_TELA)
     frame_idx   = 0
     frame_timer = 0
     FRAME_DELAY = 80
