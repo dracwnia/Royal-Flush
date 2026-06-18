@@ -100,12 +100,27 @@ def tela_menu(tela, fonte_titulo, fonte_btn, relogio):
  
  
 def tela_game_over(tela, fonte_titulo, fonte_btn, nivel, relogio):
-    btn_reiniciar = pygame.Rect(0, 0, 220, 50)
-    btn_menu      = pygame.Rect(0, 0, 220, 50)
- 
+    import os
+    pasta_assets = os.path.join(os.path.dirname(__file__), "..", "assets", "imagens")
+    gif_path = os.path.abspath(os.path.join(pasta_assets, "tela_gameover.gif"))
+    frames      = _carregar_gif(gif_path, LARGURA_TELA, ALTURA_TELA)
+    frame_idx   = 0
+    frame_timer = 0
+    FRAME_DELAY = 80
+
+    btn_reiniciar = pygame.Rect(0, 0, 220, 52)
+    btn_menu      = pygame.Rect(0, 0, 220, 52)
+
+    cx = LARGURA_TELA // 2
+    cy = ALTURA_TELA  // 2
+    t  = 0
+
+    fonte_nivel = pygame.font.SysFont("georgia,timesnewroman", 16)
+
     while True:
-        relogio.tick(FPS)
- 
+        dt = relogio.tick(FPS)
+        t += 1
+
         for evento in pygame.event.get():
             if evento.type == pygame.QUIT:
                 pygame.quit()
@@ -118,22 +133,43 @@ def tela_game_over(tela, fonte_titulo, fonte_btn, nivel, relogio):
                     return "reiniciar"
                 if btn_menu.collidepoint(evento.pos):
                     return "menu"
- 
-        tela.fill((25, 10, 10))
-        cx = LARGURA_TELA // 2
- 
-        t1 = fonte_titulo.render("GAME OVER", True, VERMELHO)
-        tela.blit(t1, (cx - t1.get_width() // 2, 140))
- 
-        ts = fonte_btn.render(f"Nivel atingido: {nivel}", True, DOURADO)
-        tela.blit(ts, (cx - ts.get_width() // 2, 300))
- 
-        btn_reiniciar = pygame.Rect(cx - 110, 400, 220, 50)
-        btn_menu      = pygame.Rect(cx - 110, 465, 220, 50)
- 
-        _desenhar_botao(tela, "JOGAR NOVAMENTE", btn_reiniciar, fonte_btn)
-        _desenhar_botao(tela, "MENU PRINCIPAL",  btn_menu,      fonte_btn, cor_fundo=(40, 40, 80))
- 
+
+        frame_timer += dt
+        if frame_timer >= FRAME_DELAY:
+            frame_timer = 0
+            frame_idx   = (frame_idx + 1) % len(frames)
+
+        tela.blit(frames[frame_idx], (0, 0))
+
+        overlay = pygame.Surface((LARGURA_TELA, ALTURA_TELA), pygame.SRCALPHA)
+        pygame.draw.rect(overlay, (0, 0, 0, 145),
+                         (cx - 185, cy - 155, 370, 330), border_radius=6)
+        tela.blit(overlay, (0, 0))
+
+        pulse = int(12 * math.sin(t * 0.07))
+        r_now = min(255, 200 + pulse)
+        cor_titulo = (r_now, max(0, 30 + pulse // 2), max(0, 30 + pulse // 2))
+
+        for line, oy in [("GAME", cy - 135), ("OVER", cy - 85)]:
+            sombra = fonte_titulo.render(line, True, (60, 0, 0))
+            tela.blit(sombra, sombra.get_rect(center=(cx + 2, oy + 2)))
+            img = fonte_titulo.render(line, True, cor_titulo)
+            tela.blit(img, img.get_rect(center=(cx, oy)))
+
+        sep_y = cy - 30
+        pygame.draw.line(tela, _GOLD_DIM, (cx - 140, sep_y), (cx + 140, sep_y), 1)
+
+        sub = fonte_nivel.render(f"NIVEL ATINGIDO:  {nivel}", True, _GOLD_DIM)
+        tela.blit(sub, sub.get_rect(center=(cx, sep_y + 18)))
+
+        mx, my = pygame.mouse.get_pos()
+
+        btn_reiniciar = pygame.Rect(cx - 115, cy + 20, 230, 52)
+        btn_menu      = pygame.Rect(cx - 115, cy + 85, 230, 52)
+
+        _botao(tela, fonte_btn, "JOGAR NOVAMENTE", btn_reiniciar, mx, my, cor_base=(60, 8, 8))
+        _botao(tela, fonte_btn, "MENU PRINCIPAL",  btn_menu,      mx, my, cor_base=(15, 5, 30))
+
         pygame.display.flip()
  
  
