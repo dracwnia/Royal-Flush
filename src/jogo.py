@@ -221,11 +221,20 @@ def _desenhar_botao(tela, texto, rect, fonte, cor_fundo=(30, 60, 130)):
  
  
 def _desenhar_fundo(tela):
-    tela.fill(VERDE_MESA)
-    for x in range(0, PAINEL_X, 40):
-        pygame.draw.line(tela, VERDE_ESCURO, (x, 0), (x, ALTURA_TELA), 1)
-    for y in range(0, ALTURA_TELA, 40):
-        pygame.draw.line(tela, VERDE_ESCURO, (0, y), (PAINEL_X, y), 1)
+    tela.fill((18, 58, 32))
+
+    for i in range(-ALTURA_TELA, PAINEL_X, 18):
+        pygame.draw.line(tela, (16, 54, 29), (i, 0), (i + ALTURA_TELA, ALTURA_TELA), 1)
+    for i in range(-ALTURA_TELA, PAINEL_X, 18):
+        pygame.draw.line(tela, (16, 54, 29), (i + ALTURA_TELA, 0), (i, ALTURA_TELA), 1)
+
+    margem = 12
+    pygame.draw.rect(tela, (140, 110, 30),
+                     (margem, margem, PAINEL_X - margem * 2, ALTURA_TELA - margem * 2),
+                     1, border_radius=8)
+    pygame.draw.rect(tela, (80, 60, 10),
+                     (margem + 3, margem + 3, PAINEL_X - margem * 2 - 6, ALTURA_TELA - margem * 2 - 6),
+                     1, border_radius=6)
  
  
 def _resetar_jogo(nivel, vidas):
