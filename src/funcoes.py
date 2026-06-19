@@ -15,7 +15,19 @@ def jogador_perdeu(vidas):
     return vidas <= 0
 
 
+def ganhar_pontos(pontos, multiplicador):
+    pontos = pontos + 100 * multiplicador
+    multiplicador = multiplicador * 2
+    return pontos, multiplicador
+
+
 def comparar_cartas(carta1, carta2):
+    """Compara duas cartas e retorna o tipo de resultado.
+
+    Retorna uma das strings: 'par_perfeito', 'par_naipe', 'par_valor', 'errado'.
+    Esta função não modifica pontos nem multiplicador; a atualização deve
+    ser feita pela camada de apresentação/controle (por exemplo, `jogo.py`).
+    """
     mesmo_naipe = carta1["naipe"] == carta2["naipe"]
     mesmo_valor = carta1["valor"] == carta2["valor"]
 

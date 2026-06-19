@@ -83,8 +83,8 @@ def _desenhar_coringa(sup, rect):
         print(f"erro joker: {e}")
         pygame.draw.rect(sup, (30, 20, 50), rect, border_radius=8)
 
-
-def desenhar_painel(tela, vidas, nivel, fonte_titulo, fonte_info):
+#agr precisa da variavel pontos
+def desenhar_painel(tela, vidas, nivel, pontos, fonte_titulo, fonte_info):
     from src.config import PAINEL_X, PAINEL_LARG, ALTURA_TELA, DOURADO, BRANCO, VERMELHO
 
     painel = pygame.Rect(PAINEL_X, 0, PAINEL_LARG, ALTURA_TELA)
@@ -119,3 +119,9 @@ def desenhar_painel(tela, vidas, nivel, fonte_titulo, fonte_info):
         pygame.draw.circle(tela, cor, (hx - r // 2, hy - r // 4), r // 2)
         pygame.draw.circle(tela, cor, (hx + r // 2, hy - r // 4), r // 2)
         pygame.draw.polygon(tela, cor, [(hx - r, hy - r // 4 + 2), (hx, hy + r), (hx + r, hy - r // 4 + 2)])
+
+    y += 40
+    pygame.draw.line(tela, DOURADO, (PAINEL_X + 10, y), (PAINEL_X + PAINEL_LARG - 10, y), 1)
+    txt_pontos = fonte_info.render(f"Pontos: {pontos}", True, DOURADO)
+    y += txt_pontos.get_height()
+    tela.blit(txt_pontos, (cx - txt_pontos.get_width() // 2, y))

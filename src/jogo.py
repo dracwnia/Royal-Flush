@@ -11,6 +11,7 @@ from src.config import (
 from src.funcoes import (
     tomar_dano,
     jogador_perdeu,
+    ganhar_pontos,
     comparar_cartas,
     criar_deck,
     posicionar_cartas,
@@ -236,6 +237,8 @@ def executar_jogo():
  
     nivel = 1
     vidas = 3
+    pontos = 0
+    multiplicador = 1
  
     cartas, selecionadas, coringa_usado = _resetar_jogo(nivel, vidas)
  
@@ -274,6 +277,8 @@ def executar_jogo():
                         resultado = tela_game_over(tela, fonte_titulo, fonte_btn, nivel, relogio)
                         nivel = 1
                         vidas = 3
+                        pontos = 0
+                        multiplicador = 1
                         if resultado == "menu":
                             tela_menu(tela, fonte_titulo, fonte_btn, relogio)
                         cartas, selecionadas, coringa_usado = _resetar_jogo(nivel, vidas)
@@ -302,6 +307,7 @@ def executar_jogo():
                 resultado = comparar_cartas(cartas[i1], cartas[i2])
  
                 if resultado == "par_perfeito":
+                    pontos, multiplicador = ganhar_pontos(pontos, multiplicador)
                     cartas[i1]["estado"] = "fixada"
                     cartas[i2]["estado"] = "fixada"
                     selecionadas         = []
@@ -316,12 +322,15 @@ def executar_jogo():
                             tela_menu(tela, fonte_titulo, fonte_btn, relogio)
                             nivel = 1
                             vidas = 3
+                            pontos = 0
+                            multiplicador = 1
                         else:
                             tela_vitoria_nivel(tela, fonte_titulo, fonte_btn, nivel, ultimo=False, relogio=relogio)
                         cartas, selecionadas, coringa_usado = _resetar_jogo(nivel, vidas)
                         mensagem = ""
  
                 elif resultado in ("par_naipe", "par_valor"):
+                    multiplicador = 1
                     mensagem          = "Tente de novo!"
                     cor_mensagem      = (180, 220, 255)
                     tempo_mensagem    = agora
@@ -329,6 +338,7 @@ def executar_jogo():
                     tempo_fechar      = agora + DELAY_FECHAR
  
                 else:
+                    multiplicador = 1
                     vidas          = tomar_dano(vidas, 1)
                     mensagem       = f"Errado! Vidas: {vidas}"
                     cor_mensagem   = VERMELHO
@@ -341,6 +351,8 @@ def executar_jogo():
                         resultado = tela_game_over(tela, fonte_titulo, fonte_btn, nivel, relogio)
                         nivel = 1
                         vidas = 3
+                        pontos = 0
+                        multiplicador = 1
                         if resultado == "menu":
                             tela_menu(tela, fonte_titulo, fonte_btn, relogio)
                         cartas, selecionadas, coringa_usado = _resetar_jogo(nivel, vidas)
@@ -360,7 +372,7 @@ def executar_jogo():
         _desenhar_fundo(tela)
         for carta in cartas:
             desenhar_carta(tela, carta)
-        desenhar_painel(tela, vidas, nivel, fonte_titulo, fonte_info)
+        desenhar_painel(tela, vidas, nivel, pontos, fonte_titulo, fonte_info)
  
         if mensagem and agora - tempo_mensagem < DURACAO_MSG:
             txt_msg = fonte_msg.render(mensagem, True, cor_mensagem)
