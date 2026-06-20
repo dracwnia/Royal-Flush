@@ -4,6 +4,7 @@ from src.config import (
     CARTA_LARG, CARTA_ALT,
     BRANCO, PRETO, AZUL_CARTA, DOURADO, VERMELHO,
     AMARELO, SIMBOLOS_NAIPE, CORES_NAIPE,
+    VIDAS_INICIAIS,
 )
 
 _cache_imagens = {}
@@ -87,38 +88,60 @@ def _desenhar_coringa(sup, rect):
 def desenhar_painel(tela, vidas, nivel, pontos, fonte_titulo, fonte_info):
     from src.config import PAINEL_X, PAINEL_LARG, ALTURA_TELA, DOURADO, BRANCO, VERMELHO
 
+    _GOLD     = (212, 175,  55)
+    _GOLD_DIM = (140, 110,  30)
+
     painel = pygame.Rect(PAINEL_X, 0, PAINEL_LARG, ALTURA_TELA)
-    pygame.draw.rect(tela, (15, 35, 20), painel)
-    pygame.draw.line(tela, DOURADO, (PAINEL_X, 0), (PAINEL_X, ALTURA_TELA), 3)
+    pygame.draw.rect(tela, (10, 22, 14), painel)
+    pygame.draw.line(tela, _GOLD,     (PAINEL_X,     0), (PAINEL_X,     ALTURA_TELA), 2)
+    pygame.draw.line(tela, _GOLD_DIM, (PAINEL_X + 3, 0), (PAINEL_X + 3, ALTURA_TELA), 1)
 
-    t1 = fonte_titulo.render("ROYAL", True, DOURADO)
-    t2 = fonte_titulo.render("FLUSH", True, DOURADO)
     cx = PAINEL_X + PAINEL_LARG // 2
-    tela.blit(t1, (cx - t1.get_width() // 2, 20))
-    tela.blit(t2, (cx - t2.get_width() // 2, 20 + t1.get_height()))
 
-    y = 20 + t1.get_height() * 2 + 20
-    pygame.draw.line(tela, DOURADO, (PAINEL_X + 10, y), (PAINEL_X + PAINEL_LARG - 10, y), 1)
+    t1 = fonte_titulo.render("ROYAL", True, _GOLD)
+    t2 = fonte_titulo.render("FLUSH", True, _GOLD)
+    tela.blit(t1, (cx - t1.get_width() // 2, 22))
+    tela.blit(t2, (cx - t2.get_width() // 2, 22 + t1.get_height()))
 
-    y += 15
-    txt_nivel = fonte_info.render(f"Nivel: {nivel}", True, DOURADO)
+    y = 22 + t1.get_height() * 2 + 18
+    pygame.draw.line(tela, _GOLD,     (PAINEL_X + 14, y),     (PAINEL_X + PAINEL_LARG - 14, y),     1)
+    pygame.draw.line(tela, _GOLD_DIM, (PAINEL_X + 14, y + 3), (PAINEL_X + PAINEL_LARG - 14, y + 3), 1)
+
+    y += 18
+    fonte_label = pygame.font.SysFont("arial", 11)
+    lbl = fonte_label.render("N I V E L", True, _GOLD_DIM)
+    tela.blit(lbl, (cx - lbl.get_width() // 2, y))
+    y += lbl.get_height() + 4
+
+    fonte_num = pygame.font.SysFont("georgia,timesnewroman", 36, bold=True)
+    txt_nivel = fonte_num.render(str(nivel), True, _GOLD)
     tela.blit(txt_nivel, (cx - txt_nivel.get_width() // 2, y))
+    y += txt_nivel.get_height() + 14
 
-    y += txt_nivel.get_height() + 25
-    pygame.draw.line(tela, DOURADO, (PAINEL_X + 10, y), (PAINEL_X + PAINEL_LARG - 10, y), 1)
-    y += 12
-    txt_vidas = fonte_info.render("Vidas:", True, BRANCO)
-    tela.blit(txt_vidas, (cx - txt_vidas.get_width() // 2, y))
-    y += txt_vidas.get_height() + 8
+    pygame.draw.line(tela, _GOLD_DIM, (PAINEL_X + 14, y),     (PAINEL_X + PAINEL_LARG - 14, y),     1)
+    pygame.draw.line(tela, _GOLD,     (PAINEL_X + 14, y + 3), (PAINEL_X + PAINEL_LARG - 14, y + 3), 1)
 
-    for i in range(3):
-        cor = VERMELHO if i < vidas else (60, 60, 60)
-        hx = PAINEL_X + 25 + i * 50
-        hy = y + 12
-        r = 12
-        pygame.draw.circle(tela, cor, (hx - r // 2, hy - r // 4), r // 2)
-        pygame.draw.circle(tela, cor, (hx + r // 2, hy - r // 4), r // 2)
-        pygame.draw.polygon(tela, cor, [(hx - r, hy - r // 4 + 2), (hx, hy + r), (hx + r, hy - r // 4 + 2)])
+    y += 20
+    lbl_v = fonte_label.render("V I D A S", True, _GOLD_DIM)
+    tela.blit(lbl_v, (cx - lbl_v.get_width() // 2, y))
+    y += lbl_v.get_height() + 10
+
+    max_vidas = VIDAS_INICIAIS
+    start_x = cx - (max_vidas * 28) // 2 + 8
+    for i in range(max_vidas):
+        cor = (200, 30, 30) if i < vidas else (55, 30, 30)
+        hx = start_x + i * 28
+        hy = y + 14
+        r  = 10
+        pygame.draw.circle(tela, cor, (hx - r // 2, hy - r // 4), r // 2 + 1)
+        pygame.draw.circle(tela, cor, (hx + r // 2, hy - r // 4), r // 2 + 1)
+        pygame.draw.polygon(tela, cor, [
+            (hx - r, hy - r // 4 + 2),
+            (hx, hy + r + 1),
+            (hx + r, hy - r // 4 + 2)
+        ])
+        if i < vidas:
+            pygame.draw.circle(tela, (255, 100, 100), (hx - r // 2 - 1, hy - r // 4 - 1), 2)
 
     y += 40
     pygame.draw.line(tela, DOURADO, (PAINEL_X + 10, y), (PAINEL_X + PAINEL_LARG - 10, y), 1)

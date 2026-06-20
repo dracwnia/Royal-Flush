@@ -69,28 +69,28 @@ def criar_deck(nivel):
     return deck
 
 
-def posicionar_cartas(deck, nivel):
-    cols, rows = GRID_NIVEIS.get(nivel, (4, 3))
+def posicionar_cartas(cartas, nivel):
+    from src.config import (
+        GRID_NIVEIS, CARTA_LARG, CARTA_ALT, MARGEM_CARTA,
+        PAINEL_X, ALTURA_TELA
+    )
 
-    grid_larg = cols * CARTA_LARG + (cols - 1) * MARGEM_CARTA
-    grid_alt  = rows * CARTA_ALT  + (rows - 1) * MARGEM_CARTA
+    cols, linhas = GRID_NIVEIS[nivel]
 
-    offset_x = (PAINEL_X - grid_larg) // 2
-    offset_y = (700 - grid_alt) // 2
+    grid_w = cols * CARTA_LARG + (cols - 1) * MARGEM_CARTA
+    grid_h = linhas * CARTA_ALT + (linhas - 1) * MARGEM_CARTA
 
-    cartas = []
-    for idx, carta in enumerate(deck):
-        col = idx % cols
-        row = idx // cols
-        x = offset_x + col * (CARTA_LARG + MARGEM_CARTA)
-        y = offset_y + row * (CARTA_ALT  + MARGEM_CARTA)
-        cartas.append({
-            "valor":   carta["valor"],
-            "naipe":   carta["naipe"],
-            "coringa": carta["coringa"],
-            "estado":  "fechada",
-            "rect":    pygame.Rect(x, y, CARTA_LARG, CARTA_ALT),
-        })
+    area_w = PAINEL_X
+    inicio_x = (area_w - grid_w) // 2
+    inicio_y = (ALTURA_TELA - grid_h) // 2
+
+    for i, carta in enumerate(cartas):
+        col = i % cols
+        lin = i // cols
+        x = inicio_x + col * (CARTA_LARG + MARGEM_CARTA)
+        y = inicio_y + lin * (CARTA_ALT  + MARGEM_CARTA)
+        carta["estado"] = "fechada"
+        carta["rect"] = pygame.Rect(x, y, CARTA_LARG, CARTA_ALT)
 
     return cartas
 
