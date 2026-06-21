@@ -24,6 +24,12 @@ from src.sprites import (
 )
 from src.dados import salvar_ranking
 
+from src.sons import (
+    iniciar_audio,
+    tocar_som_cassino,
+    tocar_som_tiro,
+)
+
 
 MAX_NIVEL = 3
 
@@ -31,16 +37,22 @@ MAX_NIVEL = 3
 PREVIEW_FASE_SEGUNDOS = 10
 
 
-DURACAO_HISTORIA = 30
+
+MAX_NIVEL = 3
+
+PREVIEW_FASE_SEGUNDOS = 10
+
+DURACAO_HISTORIA = 40 
+
+SOM_CASSINO_INICIO = 0.0
+SOM_TIRO_INSTANTE  = 3
+TEXTO_REVELA_APOS  = 7
 
 TEXTO_HISTORIA = [
-    "xxxxxxxxxxxxxxxxxxxxx",
-    "xxxxxxxxxxxxxxxxxxxxx",
-    "xxxxxxxxxxxxxxxxxxxxx",
-    "xxxxxxxxxxxxxxxxxxxxx",
-    "xxxxxxxxxxxxxxxxxxxxx",
-    "xxxxxxxxxxxxxxxxxxxxx",
-    "xxxxxxxxxxxxxxxxxxxxxx",
+    "Voce era uma apostadora nata",
+    "que morreu por nunca perder.",
+    "Agora precisa ganhar mais uma vez",
+    "para salvar sua alma.",
 ]
 
 _GOLD     = (212, 175,  55)
@@ -54,18 +66,23 @@ def tela_historia(tela, fonte_titulo, fonte_btn, relogio):
     Avanca automaticamente apos DURACAO_HISTORIA segundos, ou imediatamente
     se o jogador clicar ou pressionar uma tecla.
     """
-    fonte_texto = pygame.font.SysFont("georgia,timesnewroman", 20)
+    fonte_texto = pygame.font.SysFont("georgia,timesnewroman", 22)
     fonte_aviso = pygame.font.SysFont("arial", 14)
 
     cx = LARGURA_TELA // 2
+    cy = ALTURA_TELA  // 2
     inicio = time.time()
     t = 0
+
+    som_cassino_tocado = False
+    som_tiro_tocado    = False
 
     while True:
         relogio.tick(FPS)
         t += 1
         agora = time.time()
-        tempo_restante = DURACAO_HISTORIA - (agora - inicio)
+        decorrido       = agora - inicio
+        tempo_restante  = DURACAO_HISTORIA - decorrido
 
         for evento in pygame.event.get():
             if evento.type == pygame.QUIT:
@@ -79,23 +96,26 @@ def tela_historia(tela, fonte_titulo, fonte_btn, relogio):
         if tempo_restante <= 0:
             return
 
+        if not som_cassino_tocado and decorrido >= SOM_CASSINO_INICIO:
+            tocar_som_cassino()
+            som_cassino_tocado = True
+
+        if not som_tiro_tocado and decorrido >= SOM_TIRO_INSTANTE:
+            tocar_som_tiro()
+            som_tiro_tocado = True
+
         tela.fill((8, 8, 14))
 
         pulse    = int(15 * math.sin(t * 0.05))
         gold_now = (min(255, _GOLD[0] + pulse), _GOLD[1], _GOLD[2])
 
-        titulo = fonte_titulo.render("ROYAL FLUSH", True, gold_now)
-        tela.blit(titulo, titulo.get_rect(center=(cx, 90)))
-
-        sep_y = 140
-        pygame.draw.line(tela, _GOLD_DIM, (cx - 200, sep_y), (cx + 200, sep_y), 1)
-
-        y = 190
-        for linha in TEXTO_HISTORIA:
-            if linha:
-                surf = fonte_texto.render(linha, True, _CREAM)
-                tela.blit(surf, surf.get_rect(center=(cx, y)))
-            y += 30
+        if decorrido >= TEXTO_REVELA_APOS:
+            y = cy - (len(TEXTO_HISTORIA) * 30) // 2
+            for linha in TEXTO_HISTORIA:
+                if linha:
+                    surf = fonte_texto.render(linha, True, _CREAM)
+                    tela.blit(surf, surf.get_rect(center=(cx, y)))
+                y += 36
 
         aviso = fonte_aviso.render(
             f"Clique ou pressione qualquer tecla para continuar... ({int(tempo_restante) + 1}s)",
@@ -116,9 +136,8 @@ def tela_menu(tela, fonte_titulo, fonte_btn, relogio):
             "assets",
             "imagens",
             "tela_inicial.gif"
-        )
-    )
-
+        ))
+    
     frames = _carregar_gif(gif_path, LARGURA_TELA, ALTURA_TELA)
     frame_idx   = 0
     frame_timer = 0
@@ -259,6 +278,14 @@ def tela_game_over(tela, fonte_titulo, fonte_btn, nivel, relogio):
 
         pygame.display.flip()
 
+        if evento.type == pygame.MOUSEBUTTONDOWN and evento.button == 1:
+                if btn_reiniciar.collidepoint(evento.pos):
+                    tocar_som_clique()
+                    return "reiniciar"
+                if btn_menu.collidepoint(evento.pos):
+                    tocar_som_clique()
+                    return "menu"
+
 
 def tela_vitoria_nivel(tela, fonte_titulo, fonte_btn, nivel, ultimo, relogio):
     btn_continuar = pygame.Rect(0, 0, 240, 50)
@@ -286,6 +313,11 @@ def tela_vitoria_nivel(tela, fonte_titulo, fonte_btn, nivel, ultimo, relogio):
         _desenhar_botao(tela, label_btn, btn_continuar, fonte_btn)
 
         pygame.display.flip()
+
+        if evento.type == pygame.MOUSEBUTTONDOWN and evento.button == 1:
+                if btn_continuar.collidepoint(evento.pos):
+                    tocar_som_clique()
+                    return
 
 
 def _botao(surf, fonte, texto, rect, mx, my, cor_base):
@@ -372,6 +404,7 @@ def _surface_preta(w, h):
 
 def executar_jogo():
     pygame.init()
+    iniciar_audio()
 
     tela    = pygame.display.set_mode((LARGURA_TELA, ALTURA_TELA))
     pygame.display.set_caption(TITULO_JOGO)
