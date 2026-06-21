@@ -25,8 +25,8 @@ def comparar_cartas(carta1, carta2):
     """Compara duas cartas e retorna o tipo de resultado.
 
     Retorna uma das strings: 'par_perfeito', 'par_naipe', 'par_valor', 'errado'.
-    Esta função não modifica pontos nem multiplicador; a atualização deve
-    ser feita pela camada de apresentação/controle (por exemplo, `jogo.py`).
+    Esta funcao nao modifica pontos nem multiplicador; a atualizacao deve
+    ser feita pela camada de apresentacao/controle (por exemplo, `jogo.py`).
     """
     mesmo_naipe = carta1["naipe"] == carta2["naipe"]
     mesmo_valor = carta1["valor"] == carta2["valor"]
@@ -42,6 +42,16 @@ def comparar_cartas(carta1, carta2):
 
 
 def criar_deck(nivel):
+    """
+    Cria o baralho embaralhado para o nivel informado.
+
+    O tabuleiro tem `total = cols * rows` cartas, sendo uma delas sempre
+    o Coringa. As demais (total - 1) posicoes sao preenchidas com pares
+    perfeitos (mesmo naipe e mesmo valor). Quando (total - 1) e impar,
+    sobra uma posicao que nao caberia em nenhum par; essa posicao e
+    preenchida com uma carta avulsa extra, para garantir que o tabuleiro
+    nunca fique com espacos vazios.
+    """
     cols, rows = GRID_NIVEIS.get(nivel, (4, 3))
     total = cols * rows
 
@@ -52,6 +62,7 @@ def criar_deck(nivel):
 
     random.shuffle(todas)
 
+  
     n_pares = (total - 1) // 2
     deck = []
     usadas = set()
@@ -64,6 +75,14 @@ def criar_deck(nivel):
             deck.append({"valor": carta["valor"], "naipe": carta["naipe"], "coringa": False})
 
     deck.append({"valor": "CORINGA", "naipe": "coringa", "coringa": True})
+
+    if len(deck) < total:
+        for carta in todas:
+            chave = (carta["valor"], carta["naipe"])
+            if chave not in usadas:
+                usadas.add(chave)
+                deck.append({"valor": carta["valor"], "naipe": carta["naipe"], "coringa": False})
+                break
 
     random.shuffle(deck)
     return deck

@@ -126,7 +126,8 @@ def desenhar_painel(tela, vidas, nivel, pontos, fonte_titulo, fonte_info):
     tela.blit(lbl_v, (cx - lbl_v.get_width() // 2, y))
     y += lbl_v.get_height() + 10
 
-    max_vidas = VIDAS_INICIAIS
+    max_vidas = 5 if nivel == 3 else 3
+    
     start_x = cx - (max_vidas * 28) // 2 + 8
     for i in range(max_vidas):
         cor = (200, 30, 30) if i < vidas else (55, 30, 30)
